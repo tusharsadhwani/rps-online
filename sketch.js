@@ -1,5 +1,14 @@
 "use strict"
 
+// Create an account on PythonAnywhere
+// and put your username in this variable
+// for eg.
+// my PythonAnywhere site URL is
+// tusharsadhwani.pythonanywhere.com
+// so my username is 'tusharsadhwani'
+let PA_USERNAME = 'tusharsadhwani'
+
+
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
 let STATUS
 
