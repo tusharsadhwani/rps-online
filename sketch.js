@@ -172,7 +172,7 @@ function show_joining_screen() {
 }
 
 function show_hands() {
-    let people = hands.length;
+    let people = hands.length
 
     let people_right = Math.floor(people/2)
     let people_left = people - people_right
