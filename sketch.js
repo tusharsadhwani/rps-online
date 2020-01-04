@@ -20,6 +20,7 @@ let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
 // and display stuff accordingly
 let Status = {
     HOSTING: 'hosting',
+    JOINING: 'waiting for players to join game',
     WAITING: 'waiting for moves',
     ANIMATING: 'animating rock paper scissors text',
     DISPLAYING: 'displaying moves',
@@ -27,15 +28,16 @@ let Status = {
 }
 
 // status will hold a value from the Status object,
-// signifying the current state of the game, i.e.
-// if it's in the create stage, playing stage or
-// game over stage
+// signifying the current state of the game
 let status
 
 let logo_portrait, logo_landscape        // hold both logo Image objects
 let rock_text, paper_text, scissors_text // hold images for the texts
 let rock, paper, scissors                // right handed images
 let rocki, paperi, scissorsi             // left handed (inverted) images
+let container_top                        // Height of game logo
+let container_height                     // Height of game's play area
+let user_name = ""                       // The name the user enters during joining
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -68,15 +70,18 @@ function setup() {
         hands.push(randomHand())
     }
 
+    container_top = height * 0.1
+    container_height = height * 0.8
     setup_logo()
-    status = Status.DISPLAYING
+    status = Status.JOINING
 }
 
 function draw() {
     background('#FCD319')
     show_logo()
     switch(status) {
-        case Status.HOSTING:
+        case Status.JOINING:
+            show_joining_screen()
             break
         case Status.WAITING:
             break
@@ -91,6 +96,16 @@ function draw() {
     }
 }
 
+function keyPressed() {
+    if (status == Status.JOINING) {
+        if (key == 'Backspace' && user_name.length > 0) {
+            user_name = user_name.slice(0, -1)
+        }
+        else if (key.length == 1 && user_name.length < 15)
+            user_name = user_name + key
+    }
+}
+
 function windowResized() {
     createCanvas(innerWidth, innerHeight)
     setup_logo()
@@ -98,13 +113,13 @@ function windowResized() {
 
 function setup_logo() {
     if (width > height)  {
-        if (Math.abs(height*0.1 - logo_landscape.height) > 1)
-            logo_landscape.resize(0, height*0.1)
+        if (Math.abs(container_top - logo_landscape.height) > 1)
+            logo_landscape.resize(0, container_top)
         if (logo_landscape.width > width)
             logo_landscape.resize(width, 0)
     } else {
-        if (Math.abs(height*0.1 - logo_landscape.height) > 1)
-            logo_portrait.resize(0, height*0.1)
+        if (Math.abs(container_top - logo_landscape.height) > 1)
+            logo_portrait.resize(0, container_top)
     }
 }
 
@@ -118,14 +133,49 @@ function show_logo() {
     }
 }
 
+function show_joining_screen() {
+    fill(0)
+    noStroke()
+    textSize(height * 0.05)
+    textAlign(LEFT, BOTTOM)
+    
+    let text_box_width = min(width * 0.8, 500)
+    let text_box_height = text_box_width * 0.12
+    
+    textSize(text_box_height * 0.5)
+    text("Enter your Name: ", width * 0.1, container_top + height * 0.28)
+
+    rectMode(CORNER)
+    noFill()
+    stroke(0)
+    strokeWeight(4)
+    rect(width * 0.1, container_top + height * 0.3, text_box_width, text_box_height)
+
+    fill(0)
+    noStroke()
+    textSize(text_box_height * 0.8)
+    textAlign(LEFT, BOTTOM)
+    text(user_name, width * 0.11, container_top + height * 0.295, text_box_width, text_box_height)
+
+    fill('green')
+    stroke(0)
+    strokeWeight(4)
+    rectMode(CENTER)
+    rect(width/2, container_top + height * 0.7, text_box_width/3, text_box_height)
+
+    fill(0)
+    noStroke()
+    textSize(text_box_height * 0.8)
+    textAlign(CENTER, CENTER)
+    text("Join", width/2, container_top + height * 0.7)
+
+}
+
 function show_hands() {
     let people = hands.length;
 
     let people_right = Math.floor(people/2)
     let people_left = people - people_right
-    
-    let top = height * 0.1
-    let container_height = height * 0.8
 
     let max_image_height = container_height / people_left
 
@@ -145,12 +195,12 @@ function show_hands() {
     let right_y = []
 
     for (let i = 0; i < people_left; i++) {
-        left_y.push(top + (i+0.5)/people_left * container_height)
+        left_y.push(container_top + (i+0.5)/people_left * container_height)
     }
 
     for (let i = 0; i < people_right; i++) {
         let offset = people_left - people_right + 1
-        right_y.push(top + (i + 0.5*offset)/people_left * container_height)
+        right_y.push(container_top + (i + 0.5*offset)/people_left * container_height)
     }
 
     imageMode(CORNER)
@@ -168,7 +218,7 @@ function show_hands() {
 }
 
 function show_buttons() {
-    let top = height * 0.9
+    let btn_top = height * 0.9
     
     let button_logos = [ROCK, PAPER, SCISSORS]
     for (let x = 0; x < 3; x++) {
@@ -179,11 +229,11 @@ function show_buttons() {
         fill(255, 0, 0)
         rectMode(CENTER)
         let button_width = min(width * 0.3, height*0.3)
-        rect(button_x + width/6, top + height*0.05, button_width, height*0.085)
+        rect(button_x + width/6, btn_top + height*0.05, button_width, height*0.085)
         
         imageMode(CENTER)
         let button_img = get_left_img(button_logos[x])
-        image(button_img, button_x + width/6, top + height*0.05, height/10, height/10 * 2/3)
+        image(button_img, button_x + width/6, btn_top + height*0.05, height/10, height/10 * 2/3)
     }
 }
 
