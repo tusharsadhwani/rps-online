@@ -1,24 +1,45 @@
 "use strict"
 
-// Create an account on PythonAnywhere
-// and put your username in this variable
-// for eg.
-// my PythonAnywhere site URL is
-// tusharsadhwani.pythonanywhere.com
-// so my username is 'tusharsadhwani'
-let PA_USERNAME = 'tusharsadhwani'
+////////////////////////////////////////////////
+//   Create an account on PythonAnywhere      //
+//   and put your username in this variable   //
+//   for eg.                                  //
+//   my PythonAnywhere site URL is            //
+//   tusharsadhwani.pythonanywhere.com        //
+//   so my username is 'tusharsadhwani'       //
+//                                            //
+let PA_USERNAME = 'tusharsadhwani'            //
+////////////////////////////////////////////////
 
 
+// Placeholder values for use in various functions
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
-let STATUS
 
-let logo_portrait, logo_landscape
-let rock_text, paper_text, scissors_text
-let rock, paper, scissors
-let rocki, paperi, scissorsi
-let hands
+// Status is a collection of all the possible states
+// the game can be in. It is used to check game status
+// and display stuff accordingly
+let Status = {
+    HOSTING: 'hosting',
+    WAITING: 'waiting for moves',
+    ANIMATING: 'animating rock paper scissors text',
+    DISPLAYING: 'displaying moves',
+    GAMEOVER: 'game over'
+}
+
+// status will hold a value from the Status object,
+// signifying the current state of the game, i.e.
+// if it's in the create stage, playing stage or
+// game over stage
+let status
+
+let logo_portrait, logo_landscape        // hold both logo Image objects
+let rock_text, paper_text, scissors_text // hold images for the texts
+let rock, paper, scissors                // right handed images
+let rocki, paperi, scissorsi             // left handed (inverted) images
+let hands                                // TODO: remove this variable
 
 function preload() {
+    // Load the image assets before starting the draw loop
     rock = loadImage('./assets/rock.png')
     paper = loadImage('./assets/paper.png')
     scissors = loadImage('./assets/scissors.png')
@@ -48,13 +69,26 @@ function setup() {
     }
 
     setup_logo()
+    status = Status.DISPLAYING
 }
 
 function draw() {
     background('#FCD319')
     show_logo()
-    show_hands()
-    show_buttons()
+    switch(status) {
+        case Status.HOSTING:
+            break
+        case Status.WAITING:
+            break
+        case Status.ANIMATING:
+            break
+        case Status.DISPLAYING:
+            show_hands()
+            show_buttons()
+            break
+        case Status.GAMEOVER:
+            break
+    }
 }
 
 function windowResized() {
