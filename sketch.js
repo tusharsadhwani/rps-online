@@ -92,6 +92,7 @@ function draw() {
             show_welcome_screen()
             break
         case Status.HOSTING:
+            show_hosting_screen()
             break
         case Status.JOINING:
             show_joining_screen()
@@ -187,6 +188,14 @@ function show_welcome_screen() {
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Join Game", width/2, container_top + container_height * 0.6)
+}
+
+function show_hosting_screen() {
+    fill(0)
+    noStroke()
+    textSize(btn_text_size)
+    textAlign(CENTER, CENTER)
+    text("Generating room...", width/2, container_top + container_height*0.4)
 }
 
 function show_joining_screen() {
