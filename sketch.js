@@ -38,6 +38,8 @@ let rock, paper, scissors                // right handed images
 let rocki, paperi, scissorsi             // left handed (inverted) images
 let container_top                        // Height of game logo
 let container_height                     // Height of game's play area
+let btn_width                            // width of a button in-game
+let btn_height                           // height of a button in-game
 let user_name = ""                       // The name the user enters during joining
 let hands                                // TODO: remove this variable
 
@@ -73,6 +75,8 @@ function setup() {
 
     container_top = height * 0.1
     container_height = height * 0.8
+    btn_width = min(300, width/2)
+    btn_height = btn_width/4
     setup_logo()
     status = Status.WELCOME
 }
@@ -140,9 +144,6 @@ function show_logo() {
 }
 
 function show_welcome_screen() {
-    let btn_width = min(300, width/2)
-    let btn_height = btn_width/4
-
     stroke(0)
     strokeWeight(4)
     rectMode(CENTER)
