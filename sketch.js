@@ -19,7 +19,8 @@ let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
 // the game can be in. It is used to check game status
 // and display stuff accordingly
 let Status = {
-    HOSTING: 'hosting',
+    WELCOME: 'home screen',
+    HOSTING: 'host a new game',
     JOINING: 'waiting for players to join game',
     WAITING: 'waiting for moves',
     ANIMATING: 'animating rock paper scissors text',
