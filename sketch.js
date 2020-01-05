@@ -72,17 +72,18 @@ function setup() {
     for (let i = 0; i < people; i++) {
         hands.push(randomHand())
     }
-
-    container_top = height * 0.1
-    container_height = height * 0.8
-    btn_width = min(300, width/2)
-    btn_height = btn_width/4
     setup_logo()
     status = Status.WELCOME
 }
 
 function draw() {
     background('#FCD319')
+
+    container_top = height * 0.1
+    container_height = height * 0.8
+    btn_width = min(300, width/2)
+    btn_height = btn_width/4
+
     show_logo()
     switch(status) {
         case Status.WELCOME:
