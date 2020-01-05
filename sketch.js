@@ -40,6 +40,7 @@ let container_top                        // Height of game logo
 let container_height                     // Height of game's play area
 let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
+let btn_text_size                        // textSize for button in-game
 let user_name = ""                       // The name the user enters during joining
 let hands                                // TODO: remove this variable
 
@@ -83,6 +84,7 @@ function draw() {
     container_height = height * 0.8
     btn_width = min(300, width/2)
     btn_height = btn_width/4
+    btn_text_size = btn_height*0.7
 
     show_logo()
     switch(status) {
@@ -152,7 +154,7 @@ function show_welcome_screen() {
     rect(width/2, container_top + container_height * 0.4, btn_width, btn_height)
     fill(0)
     noStroke()
-    textSize(btn_height*0.7)
+    textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("New Game", width/2, container_top + container_height * 0.4)
 
@@ -163,7 +165,7 @@ function show_welcome_screen() {
     rect(width/2, container_top + container_height * 0.6, btn_width, btn_height)
     fill(0)
     noStroke()
-    textSize(btn_height*0.7)
+    textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Join Game", width/2, container_top + container_height * 0.6)
 }
@@ -200,7 +202,7 @@ function show_joining_screen() {
 
     fill(0)
     noStroke()
-    textSize(btn_height * 0.7)
+    textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Join", width/2, container_top + container_height * 0.8)
 }
