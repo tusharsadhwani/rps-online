@@ -133,7 +133,7 @@ function keyPressed() {
         if (key == 'Backspace' && user_name.length > 0) {
             user_name = user_name.slice(0, -1)
         }
-        else if (key.length == 1 && user_name.length < 15)
+        else if (key.length == 1 && user_name.length < 12)
             user_name = user_name + key
     }
 }
