@@ -182,26 +182,25 @@ function show_joining_screen() {
     noFill()
     stroke(0)
     strokeWeight(4)
-    rect(width * 0.1, container_top + height * 0.3, text_box_width, text_box_height)
+    rect(width * 0.1, container_top + container_height * 0.4, text_box_width, text_box_height)
 
     fill(0)
     noStroke()
     textSize(text_box_height * 0.8)
     textAlign(LEFT, BOTTOM)
-    text(user_name, width * 0.11, container_top + height * 0.295, text_box_width, text_box_height)
+    text(user_name, width * 0.11, container_top + container_height * 0.395, text_box_width, text_box_height)
 
     fill('green')
     stroke(0)
     strokeWeight(4)
     rectMode(CENTER)
-    rect(width/2, container_top + height * 0.7, text_box_width/3, text_box_height)
+    rect(width/2, container_top + container_height * 0.8, text_box_width/3, text_box_height)
 
     fill(0)
     noStroke()
     textSize(text_box_height * 0.8)
     textAlign(CENTER, CENTER)
-    text("Join", width/2, container_top + height * 0.7)
-
+    text("Join", width/2, container_top + container_height * 0.8)
 }
 
 function show_hands() {
