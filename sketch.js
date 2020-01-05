@@ -109,6 +109,25 @@ function draw() {
     }
 }
 
+
+function mousePressed() {
+    if (status == Status.WELCOME) {
+        if (mouseY >= container_top + container_height*0.4 &&
+            mouseY <= container_top + container_height*0.4 + btn_height &&
+            mouseX >= (width - btn_width) / 2 &&
+            mouseX <= (width + btn_width) / 2) {
+                status = Status.HOSTING
+        }
+
+        if (mouseY >= container_top + container_height*0.6 &&
+            mouseY <= container_top + container_height*0.6 + btn_height &&
+            mouseX >= (width - btn_width) / 2 &&
+            mouseX <= (width + btn_width) / 2) {
+                status = Status.JOINING
+        }
+    }
+}
+
 function keyPressed() {
     if (status == Status.JOINING) {
         if (key == 'Backspace' && user_name.length > 0) {
