@@ -74,13 +74,18 @@ function setup() {
     container_top = height * 0.1
     container_height = height * 0.8
     setup_logo()
-    status = Status.JOINING
+    status = Status.WELCOME
 }
 
 function draw() {
     background('#FCD319')
     show_logo()
     switch(status) {
+        case Status.WELCOME:
+            show_welcome_screen()
+            break
+        case Status.HOSTING:
+            break
         case Status.JOINING:
             show_joining_screen()
             break
@@ -132,6 +137,33 @@ function show_logo() {
         imageMode(CENTER)
         image(logo_portrait, width/2, height*0.05)
     }
+}
+
+function show_welcome_screen() {
+    let btn_width = min(300, width/2)
+    let btn_height = btn_width/4
+
+    stroke(0)
+    strokeWeight(4)
+    rectMode(CENTER)
+    fill('red')
+    rect(width/2, container_top + container_height * 0.4, btn_width, btn_height)
+    fill(0)
+    noStroke()
+    textSize(btn_height*0.7)
+    textAlign(CENTER, CENTER)
+    text("New Game", width/2, container_top + container_height * 0.4)
+
+    stroke(0)
+    strokeWeight(4)
+    rectMode(CENTER)
+    fill('green')
+    rect(width/2, container_top + container_height * 0.6, btn_width, btn_height)
+    fill(0)
+    noStroke()
+    textSize(btn_height*0.7)
+    textAlign(CENTER, CENTER)
+    text("Join Game", width/2, container_top + container_height * 0.6)
 }
 
 function show_joining_screen() {
