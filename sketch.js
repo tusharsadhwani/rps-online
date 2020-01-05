@@ -195,11 +195,11 @@ function show_joining_screen() {
     stroke(0)
     strokeWeight(4)
     rectMode(CENTER)
-    rect(width/2, container_top + container_height * 0.8, text_box_width/3, text_box_height)
+    rect(width/2, container_top + container_height * 0.8, btn_width, btn_height)
 
     fill(0)
     noStroke()
-    textSize(text_box_height * 0.8)
+    textSize(btn_height * 0.7)
     textAlign(CENTER, CENTER)
     text("Join", width/2, container_top + container_height * 0.8)
 }
