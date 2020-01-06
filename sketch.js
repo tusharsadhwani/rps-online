@@ -42,6 +42,7 @@ let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
 let user_name = ""                       // The name the user enters during joining
+let group_code = ""                      // The group code the user enters
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -221,7 +222,7 @@ function show_joining_screen() {
     fill(0)
     noStroke()
     textSize(text_box_height * 0.8)
-    text(user_name, width * 0.11, container_top + container_height * 0.195, text_box_width, text_box_height)
+    text(group_code, width * 0.11, container_top + container_height * 0.195, text_box_width, text_box_height)
 
     textSize(text_box_height * 0.5)
     text("Enter your Name: ", width * 0.1, container_top + container_height * 0.495)
