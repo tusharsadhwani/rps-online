@@ -65,6 +65,9 @@ function preload() {
 function setup() {
     createCanvas(innerWidth, innerHeight)
 
+    container_top = height * 0.1
+    container_height = height * 0.8
+
     noStroke()
 
     // Setup random hands
@@ -80,8 +83,6 @@ function setup() {
 function draw() {
     background('#FCD319')
 
-    container_top = height * 0.1
-    container_height = height * 0.8
     btn_width = min(300, width/2)
     btn_height = btn_width/4
     btn_text_size = btn_height*0.7
@@ -141,6 +142,8 @@ function keyPressed() {
 
 function windowResized() {
     createCanvas(innerWidth, innerHeight)
+    container_top = height * 0.1
+    container_height = height * 0.8
     setup_logo()
 }
 
