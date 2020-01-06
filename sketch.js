@@ -204,26 +204,37 @@ function show_hosting_screen() {
 function show_joining_screen() {
     fill(0)
     noStroke()
-    textSize(height * 0.05)
     textAlign(LEFT, BOTTOM)
     
     let text_box_width = min(width * 0.8, 500)
     let text_box_height = text_box_width * 0.12
     
     textSize(text_box_height * 0.5)
-    text("Enter your Name: ", width * 0.1, container_top + height * 0.28)
+    text("Enter Group Code: ", width * 0.1, container_top + container_height * 0.195)
 
     rectMode(CORNER)
     noFill()
     stroke(0)
     strokeWeight(4)
-    rect(width * 0.1, container_top + container_height * 0.4, text_box_width, text_box_height)
+    rect(width * 0.1, container_top + container_height * 0.2, text_box_width, text_box_height)
 
     fill(0)
     noStroke()
     textSize(text_box_height * 0.8)
-    textAlign(LEFT, BOTTOM)
-    text(user_name, width * 0.11, container_top + container_height * 0.395, text_box_width, text_box_height)
+    text(user_name, width * 0.11, container_top + container_height * 0.195, text_box_width, text_box_height)
+
+    textSize(text_box_height * 0.5)
+    text("Enter your Name: ", width * 0.1, container_top + container_height * 0.495)
+
+    noFill()
+    stroke(0)
+    strokeWeight(4)
+    rect(width * 0.1, container_top + container_height * 0.5, text_box_width, text_box_height)
+
+    fill(0)
+    noStroke()
+    textSize(text_box_height * 0.8)
+    text(user_name, width * 0.11, container_top + container_height * 0.495, text_box_width, text_box_height)
 
     fill('green')
     stroke(0)
