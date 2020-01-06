@@ -42,9 +42,9 @@ let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
 let user_name = ""                       // The name the user enters during joining
-let user_name_selected = true            // Selected by default
+let user_name_selected = false           // Unselected by default
 let group_code = ""                      // The group code the user enters
-let group_code_selected = false          // Unselected by default
+let group_code_selected = true           // Selected by default
 let hands                                // TODO: remove this variable
 
 function preload() {
