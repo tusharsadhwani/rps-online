@@ -151,7 +151,7 @@ function setup_logo() {
         if (logo_landscape.width > width)
             logo_landscape.resize(width, 0)
     } else {
-        if (Math.abs(container_top - logo_landscape.height) > 1)
+        if (Math.abs(container_top - logo_portrait.height) > 1)
             logo_portrait.resize(0, container_top)
     }
 }
