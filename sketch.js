@@ -203,6 +203,23 @@ function show_hosting_screen() {
 }
 
 function show_joining_screen() {
+
+    function add_text_field(text_field_var, x, field_name) {
+        textSize(text_box_height * 0.5)
+        text(field_name, width * 0.1, container_top + container_height * (x-0.005))
+
+        rectMode(CORNER)
+        noFill()
+        stroke(0)
+        strokeWeight(4)
+        rect(width * 0.1, container_top + container_height * x, text_box_width, text_box_height)
+    
+        fill(0)
+        noStroke()
+        textSize(text_box_height * 0.8)
+        text(text_field_var, width * 0.11, container_top + container_height * (x-0.005), text_box_width, text_box_height)
+    }
+
     fill(0)
     noStroke()
     textAlign(LEFT, BOTTOM)
@@ -210,32 +227,8 @@ function show_joining_screen() {
     let text_box_width = min(width * 0.8, 500)
     let text_box_height = text_box_width * 0.12
     
-    textSize(text_box_height * 0.5)
-    text("Enter Group Code: ", width * 0.1, container_top + container_height * 0.195)
-
-    rectMode(CORNER)
-    noFill()
-    stroke(0)
-    strokeWeight(4)
-    rect(width * 0.1, container_top + container_height * 0.2, text_box_width, text_box_height)
-
-    fill(0)
-    noStroke()
-    textSize(text_box_height * 0.8)
-    text(group_code, width * 0.11, container_top + container_height * 0.195, text_box_width, text_box_height)
-
-    textSize(text_box_height * 0.5)
-    text("Enter your Name: ", width * 0.1, container_top + container_height * 0.495)
-
-    noFill()
-    stroke(0)
-    strokeWeight(4)
-    rect(width * 0.1, container_top + container_height * 0.5, text_box_width, text_box_height)
-
-    fill(0)
-    noStroke()
-    textSize(text_box_height * 0.8)
-    text(user_name, width * 0.11, container_top + container_height * 0.495, text_box_width, text_box_height)
+    add_text_field(group_code, 0.2, "Enter Group Code: ")
+    add_text_field(user_name, 0.5, "Enter Your Name: ")
 
     fill('green')
     stroke(0)
