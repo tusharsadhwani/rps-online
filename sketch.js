@@ -42,7 +42,9 @@ let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
 let user_name = ""                       // The name the user enters during joining
+let user_name_selected = true            // Selected by default
 let group_code = ""                      // The group code the user enters
+let group_code_selected = false          // Unselected by default
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -138,9 +140,11 @@ function mousePressed() {
                     status = Status.WAITING
             } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
                 mouseY > container_top + container_height*0.4) {
-                    console.log('bottom')
+                    user_name_selected = true
+                    group_code_selected = false
             } else if (mouseY <= container_top + container_height*0.4) {
-                console.log('top')
+                user_name_selected = false
+                group_code_selected = true
             }
             break
     }
