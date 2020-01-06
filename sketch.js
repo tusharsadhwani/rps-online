@@ -152,11 +152,18 @@ function mousePressed() {
 
 function keyPressed() {
     if (status == Status.JOINING) {
-        if (key == 'Backspace' && user_name.length > 0) {
-            user_name = user_name.slice(0, -1)
+        if (key == 'Backspace') {
+            if (user_name_selected && user_name.length > 0)
+                user_name = user_name.slice(0, -1)
+            else if (group_code_selected && group_code.length > 0)
+                group_code = group_code.slice(0, -1)
         }
-        else if (key.length == 1 && user_name.length < 12)
-            user_name = user_name + key
+        else if (key.length == 1) {
+            if (user_name_selected && user_name.length < 12)
+                user_name = user_name + key
+            else if (group_code_selected && group_code.length < 12)
+                group_code = group_code + key
+        }
     }
 }
 
@@ -231,6 +238,11 @@ function show_joining_screen() {
         noFill()
         stroke(0)
         strokeWeight(4)
+
+        if (x == 0.2 && group_code_selected ||
+            x == 0.5 && user_name_selected) {
+                fill(255, 108, 23, 200)
+        }
         rect(width * 0.1, container_top + container_height * x, text_box_width, text_box_height)
     
         fill(0)
