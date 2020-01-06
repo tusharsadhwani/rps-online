@@ -114,20 +114,35 @@ function draw() {
 
 
 function mousePressed() {
-    if (status == Status.WELCOME) {
-        if (mouseY >= container_top + container_height*0.4 - btn_height/2 &&
-            mouseY <= container_top + container_height*0.4 + btn_height/2 &&
-            mouseX >= (width - btn_width) / 2 &&
-            mouseX <= (width + btn_width) / 2) {
-                status = Status.HOSTING
-        }
+    switch (status) {
+        case Status.WELCOME:
+            if (mouseY >= container_top + container_height*0.4 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.4 + btn_height/2 &&
+                mouseX >= (width - btn_width) / 2 &&
+                mouseX <= (width + btn_width) / 2) {
+                    status = Status.HOSTING
+            }
 
-        if (mouseY >= container_top + container_height*0.6 - btn_height/2 &&
-            mouseY <= container_top + container_height*0.6 + btn_height/2 &&
-            mouseX >= (width - btn_width) / 2 &&
-            mouseX <= (width + btn_width) / 2) {
-                status = Status.JOINING
-        }
+            if (mouseY >= container_top + container_height*0.6 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.6 + btn_height/2 &&
+                mouseX >= (width - btn_width) / 2 &&
+                mouseX <= (width + btn_width) / 2) {
+                    status = Status.JOINING
+            }
+            break
+        case Status.JOINING:
+            if (mouseY >= container_top + container_height*0.8 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.8 + btn_height/2 &&
+                mouseX >= (width - btn_width) / 2 &&
+                mouseX <= (width + btn_width) / 2) {
+                    status = Status.WAITING
+            } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
+                mouseY > container_top + container_height*0.4) {
+                    console.log('bottom')
+            } else if (mouseY <= container_top + container_height*0.4) {
+                console.log('top')
+            }
+            break
     }
 }
 
