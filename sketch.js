@@ -110,6 +110,7 @@ function draw() {
             show_buttons()
             break
         case Status.GAMEOVER:
+            show_gameover_screen()
             break
     }
 }
@@ -338,6 +339,13 @@ function show_buttons() {
         let button_img = get_left_img(button_logos[x])
         image(button_img, button_x + width/6, btn_top + height*0.05, height/10, height/10 * 2/3)
     }
+}
+
+function show_gameover_screen() {
+    fill(0)
+    textAlign(CENTER, CENTER)
+    textSize(width*0.15)
+    text("Game Over", width/2, height/2)
 }
 
 function randomHand() {
