@@ -21,3 +21,7 @@ def new_game():
             break
 
     return jsonify({'code': room_code})
+
+@app.route('/')
+def ping():
+    return jsonify({'success': 'true'})
