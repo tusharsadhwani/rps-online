@@ -78,7 +78,7 @@ function setup() {
         hands.push(randomHand())
     }
     setup_logo()
-    status = Status.WELCOME
+    status = Status.DISPLAYING
 }
 
 function draw() {
@@ -290,8 +290,10 @@ function show_hands() {
         image_width = image_height * 1.5
     }
 
-    image_width *= 0.95
-    image_height *= 0.95
+    let y_offset = image_height * 0.1
+
+    image_width *= 0.8
+    image_height *= 0.8
 
     let left_y = []
     let right_y = []
@@ -306,16 +308,22 @@ function show_hands() {
     }
 
     imageMode(CORNER)
+    textSize(image_width/8)
+    textAlign(CENTER, CENTER)
+    fill(0)
+    noStroke()
     for (let i = 0; i < left_y.length; i++) {
         let y = left_y[i]
         let hand = get_left_img(hands[i])
-        image(hand, 0, y - image_height/2, image_width, image_height)
+        image(hand, 0, y - image_height/2 - y_offset, image_width, image_height)
+        text("testing123", image_width/2, y + image_height/2)
     }
 
     for (let i = 0; i < right_y.length; i++) {
         let y = right_y[i]
         let hand = get_right_img(hands[people_left+i])
-        image(hand, width, y - image_height/2, -image_width, image_height)
+        image(hand, width, y - image_height/2 - y_offset, -image_width, image_height)
+        text("testing123", width - image_width/2, y + image_height/2)
     }
 }
 
