@@ -11,9 +11,13 @@ rooms = []
 
 @app.route('/new')
 def new_game():
-    room_code = ''
-    for _ in range(5):
-        room_code += random.choice(string.ascii_letters + string.digits)
+    while True:
+        room_code = ''
+        for _ in range(5):
+            room_code += random.choice(string.ascii_letters + string.digits)
 
-    rooms.append(room_code)
+        if room_code not in rooms:
+            rooms.append(room_code)
+            break
+
     return jsonify({'code': room_code})
