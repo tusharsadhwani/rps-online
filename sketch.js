@@ -107,6 +107,7 @@ function draw() {
             show_joining_screen()
             break
         case Status.WAITING:
+            show_waiting_screen()
             break
         case Status.ANIMATING:
             break
@@ -143,7 +144,12 @@ function mousePressed() {
                 mouseY <= container_top + container_height*0.8 + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
                 mouseX <= (width + btn_width) / 2) {
-                    status = Status.WAITING
+                    fetch(`${url}/join?room=${room_code}&name=${user_name}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                            status = Status.WAITING
+                        })
             } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
                 mouseY > container_top + container_height*0.4) {
                     user_name_selected = true
@@ -297,6 +303,10 @@ function show_joining_screen() {
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Join", width/2, container_top + container_height * 0.8)
+}
+
+function show_waiting_screen() {
+
 }
 
 function show_hands() {
