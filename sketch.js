@@ -49,6 +49,7 @@ let user_name_selected = false           // Unselected by default
 let room_code = ""                       // Code of the room created by the host
 let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
+let players = []                         // List of names of players
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -306,7 +307,26 @@ function show_joining_screen() {
 }
 
 function show_waiting_screen() {
+    if (!fetching_data) {
+        fetching_data = true
+        fetch(`${url}/players?room=${room_code}`)
+            .then(res => res.json())
+            .then(data => {
+                players = data
+                fetching_data = false
+            })
+    }
 
+    let players_text = "Players:"
+    for (let player of players) {
+        players_text += `\n${player}`
+    }
+
+    fill(0)
+    noStroke()
+    textSize(btn_text_size/2)
+    textAlign(CENTER, CENTER)
+    text(players_text, width/2, container_top + container_height*0.6)
 }
 
 function show_hands() {
