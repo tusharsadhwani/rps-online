@@ -7,7 +7,14 @@ app = Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
-rooms = []
+class Player:
+    def __init__(self, pid, name):
+        self.pid = pid
+        self.name = name
+        self.score = 0
+
+rooms = {}
+ids = []
 
 @app.route('/new')
 def new_game():
@@ -17,10 +24,30 @@ def new_game():
             room_code += random.choice(string.ascii_letters + string.digits)
 
         if room_code not in rooms:
-            rooms.append(room_code)
+            rooms[room_code] = []
             break
 
     return jsonify({'code': room_code})
+
+@app.route('/join')
+def join_game():
+    required_args = ['room', 'name']
+    if any(arg not in request.args for arg in required_args):
+        return jsonify(error=400, msg="Invalid Request")
+        
+    room_code = request.args['room']
+    user_name = request.args['name']
+
+    if room_code not in rooms:
+        return jsonify(error=400, msg="Room does not exist")
+    
+    while True:
+        player_id = random.randrange(1, 1_000_000)
+        if player_id not in ids:
+            break
+    
+    rooms[room_code].append(Player(pid=player_id, name=user_name))
+    return jsonify(id=player_id)
 
 @app.route('/')
 def ping():
