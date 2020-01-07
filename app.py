@@ -15,4 +15,5 @@ def new_game():
     for _ in range(5):
         room_code += random.choice(string.ascii_letters + string.digits)
 
+    rooms.append(room_code)
     return jsonify({'code': room_code})
