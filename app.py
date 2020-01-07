@@ -49,6 +49,19 @@ def join_game():
     rooms[room_code].append(Player(pid=player_id, name=user_name))
     return jsonify(id=player_id)
 
+@app.route('/players')
+def list_players():
+    required_args = ['room']
+    if any(arg not in request.args for arg in required_args):
+        return jsonify(error=400, msg="Invalid Request")
+        
+    room_code = request.args['room']
+    if room_code not in rooms:
+        return jsonify(error=400, msg="Room does not exist")
+    
+    players = rooms[room_code]
+    return jsonify(list(p.name for p in players))
+    
 @app.route('/')
 def ping():
     return jsonify({'success': 'true'})
