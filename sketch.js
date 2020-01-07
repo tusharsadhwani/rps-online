@@ -71,8 +71,6 @@ function setup() {
     container_top = height * 0.1
     container_height = height * 0.8
 
-    noStroke()
-
     // Setup random hands
     let people = 3
     hands = []
