@@ -11,6 +11,8 @@
 let PA_USERNAME = 'tusharsadhwani'            //
 ////////////////////////////////////////////////
 
+// let url = `https://${PA_USERNAME}.pythonanywhere.com`
+let url = 'http://localhost:5000'
 
 // Placeholder values for use in various functions
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
@@ -20,6 +22,7 @@ let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
 // and display stuff accordingly
 let Status = {
     WELCOME: 'home screen',
+    GENERATING: 'generating new room',
     HOSTING: 'host a new game',
     JOINING: 'waiting for players to join game',
     WAITING: 'waiting for moves',
@@ -45,6 +48,7 @@ let user_name = ""                       // The name the user enters during join
 let user_name_selected = false           // Unselected by default
 let group_code = ""                      // The group code the user enters
 let group_code_selected = true           // Selected by default
+let fetching_data = false                // Set to true whenever HTTP req. in place
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -78,7 +82,7 @@ function setup() {
         hands.push(randomHand())
     }
     setup_logo()
-    status = Status.DISPLAYING
+    status = Status.WELCOME
 }
 
 function draw() {
@@ -92,6 +96,9 @@ function draw() {
     switch(status) {
         case Status.WELCOME:
             show_welcome_screen()
+            break
+        case Status.GENERATING:
+            show_generating_screen()
             break
         case Status.HOSTING:
             show_hosting_screen()
@@ -121,7 +128,7 @@ function mousePressed() {
                 mouseY <= container_top + container_height*0.4 + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
                 mouseX <= (width + btn_width) / 2) {
-                    status = Status.HOSTING
+                    status = Status.GENERATING
             }
 
             if (mouseY >= container_top + container_height*0.6 - btn_height/2 &&
@@ -219,12 +226,27 @@ function show_welcome_screen() {
     text("Join Game", width/2, container_top + container_height * 0.6)
 }
 
-function show_hosting_screen() {
+function show_generating_screen() {
     fill(0)
     noStroke()
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Generating room...", width/2, container_top + container_height*0.4)
+    
+    if (!fetching_data) {
+        fetching_data = true
+        fetch(`${url}/new`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                fetching_data = false
+                status = Status.HOSTING
+            })
+    }
+}
+
+function show_hosting_screen() {
+
 }
 
 function show_joining_screen() {
