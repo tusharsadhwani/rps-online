@@ -46,10 +46,9 @@ let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
 let user_name = ""                       // The name the user enters during joining
 let user_name_selected = false           // Unselected by default
-let group_code = ""                      // The group code the user enters
-let group_code_selected = true           // Selected by default
+let room_code = ""                       // Code of the room created by the host
+let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
-let room_code                            // Code of the room created by the host
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -148,10 +147,10 @@ function mousePressed() {
             } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
                 mouseY > container_top + container_height*0.4) {
                     user_name_selected = true
-                    group_code_selected = false
+                    room_code_selected = false
             } else if (mouseY <= container_top + container_height*0.4) {
                 user_name_selected = false
-                group_code_selected = true
+                room_code_selected = true
             }
             break
     }
@@ -162,14 +161,14 @@ function keyPressed() {
         if (key == 'Backspace') {
             if (user_name_selected && user_name.length > 0)
                 user_name = user_name.slice(0, -1)
-            else if (group_code_selected && group_code.length > 0)
-                group_code = group_code.slice(0, -1)
+            else if (room_code_selected && room_code.length > 0)
+                room_code = room_code.slice(0, -1)
         }
         else if (key.length == 1) {
             if (user_name_selected && user_name.length < 12)
                 user_name = user_name + key
-            else if (group_code_selected && group_code.length < 12)
-                group_code = group_code + key
+            else if (room_code_selected && room_code.length < 12)
+                room_code = room_code + key
         }
     }
 }
@@ -265,7 +264,7 @@ function show_joining_screen() {
         stroke(0)
         strokeWeight(4)
 
-        if (x == 0.2 && group_code_selected ||
+        if (x == 0.2 && room_code_selected ||
             x == 0.5 && user_name_selected) {
                 fill(255, 108, 23, 200)
         }
@@ -284,7 +283,7 @@ function show_joining_screen() {
     let text_box_width = min(width * 0.8, 500)
     let text_box_height = text_box_width * 0.12
     
-    add_text_field(group_code, 0.2, "Enter Group Code: ")
+    add_text_field(room_code, 0.2, "Enter Room Code: ")
     add_text_field(user_name, 0.5, "Enter Your Name: ")
 
     fill('green')
