@@ -49,6 +49,7 @@ let user_name_selected = false           // Unselected by default
 let group_code = ""                      // The group code the user enters
 let group_code_selected = true           // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
+let room_code                            // Code of the room created by the host
 let hands                                // TODO: remove this variable
 
 function preload() {
@@ -232,13 +233,13 @@ function show_generating_screen() {
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
     text("Generating room...", width/2, container_top + container_height*0.4)
-    
+
     if (!fetching_data) {
         fetching_data = true
         fetch(`${url}/new`)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                room_code = data.code
                 fetching_data = false
                 status = Status.HOSTING
             })
@@ -246,7 +247,11 @@ function show_generating_screen() {
 }
 
 function show_hosting_screen() {
-
+    fill(0)
+    noStroke()
+    textSize(btn_text_size)
+    textAlign(CENTER, CENTER)
+    text(`Room Code: ${room_code}`, width/2, container_top + container_height*0.4)
 }
 
 function show_joining_screen() {
