@@ -64,4 +64,4 @@ def list_players():
     
 @app.route('/')
 def ping():
-    return jsonify({'success': 'true'})
+    return jsonify(success=True)
