@@ -257,7 +257,28 @@ function show_hosting_screen() {
     noStroke()
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
-    text(`Room Code: ${room_code}`, width/2, container_top + container_height*0.4)
+    text(`Room Code: ${room_code}`, width/2, container_top + container_height*0.2)
+
+    if (!fetching_data) {
+        fetching_data = true
+        fetch(`${url}/players?room=${room_code}`)
+            .then(res => res.json())
+            .then(data => {
+                players = data
+                fetching_data = false
+            })
+    }
+
+    let players_text = "Players:"
+    for (let player of players) {
+        players_text += `\n${player}`
+    }
+
+    fill(0)
+    noStroke()
+    textSize(btn_text_size/2)
+    textAlign(CENTER, TOP)
+    text(players_text, width/2, container_top + container_height*0.4)
 }
 
 function show_joining_screen() {
