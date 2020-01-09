@@ -127,7 +127,7 @@ def play_round():
         return jsonify(error=400, msg="Invalid Request")
         
     room_code = request.args['room']
-    player_id = request.args['id']
+    player_id = int(request.args['id'])
     hand = request.args['hand']
 
     if hand not in hand_strings:
