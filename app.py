@@ -20,7 +20,12 @@ class Room:
         self.players = []
     
     def add_player(self, player):
+        if len(self.players) == 8:
+            return
+
         self.players.append(player)
+        if len(self.players) == 8:
+            self.open = False
 
 rooms = {}
 ids = []
