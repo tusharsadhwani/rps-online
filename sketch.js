@@ -53,7 +53,7 @@ let room_code = ""                       // Code of the room created by the host
 let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
 let players = []                         // List of names of players
-let chosen_hand = ROCK                   // The hand chosen by user for next round
+let chosen_hand = null                   // The hand chosen by user for next round
 let hands                                // TODO: remove this variable
 
 
@@ -420,8 +420,10 @@ function show_waiting_screen() {
         textSize(btn_text_size)
         textAlign(RIGHT, BOTTOM)
         text('Chosen Hand:', width - width/50, height/2 - image_height*0.6)
-        let hand_img = get_left_img(chosen_hand)
-        image(hand_img, width - image_width/2, height/2, image_width*0.8, image_height*0.8)
+        if (chosen_hand !== null) {
+            let hand_img = get_left_img(chosen_hand)
+            image(hand_img, width - image_width/2, height/2, image_width*0.8, image_height*0.8)
+        }
     } else {
         textAlign(CENTER, TOP)
         textSize(btn_text_size/2)
@@ -442,12 +444,14 @@ function show_waiting_screen() {
         textSize(btn_text_size)
         textAlign(CENTER, BOTTOM)
         text('Chosen Hand:', width/2, container_top + container_height - image_height)
-        let hand_img = get_left_img(chosen_hand)
-        image(
-            hand_img,
-            width/2, container_top + container_height - image_height/2,
-            image_width*0.8, image_height*0.8
-        )
+        if (chosen_hand !== null) {
+            let hand_img = get_left_img(chosen_hand)
+            image(
+                hand_img,
+                width/2, container_top + container_height - image_height/2,
+                image_width*0.8, image_height*0.8
+            )
+        }
     }
 
 }
