@@ -13,16 +13,25 @@ class Player:
         self.name = name
         self.score = 0
 
+class Room:
+    def __init__(self, room_code):
+        self.room_code = room_code
+        self.open = True
+        self.players = []
+    
+    def add_player(self, player):
+        self.players.append(player)
+
 rooms = {}
 ids = []
 
-def add_new_player(user_name, room_code):
+def add_new_player(user_name, room):
     while True:
         player_id = random.randrange(1, 1_000_000)
         if player_id not in ids:
             break
     
-    rooms[room_code].append(Player(pid=player_id, name=user_name))
+    room.add_player(Player(pid=player_id, name=user_name))
     return player_id
 
 @app.route('/new')
@@ -39,10 +48,11 @@ def new_game():
             room_code += random.choice(string.ascii_letters + string.digits)
 
         if room_code not in rooms:
-            rooms[room_code] = []
+            new_room = Room(room_code)
+            rooms[room_code] = new_room
             break
 
-    player_id = add_new_player(user_name, room_code)
+    player_id = add_new_player(user_name, new_room)
     return jsonify(code=room_code)
 
 @app.route('/join')
@@ -57,7 +67,11 @@ def join_game():
     if room_code not in rooms:
         return jsonify(error=400, msg="Room does not exist")
     
-    player_id = add_new_player(user_name, room_code)
+    room = rooms[room_code]
+    if not room.open:
+        return jsonify(error=401, msg="Room is closed")
+
+    player_id = add_new_player(user_name, room)
     return jsonify(id=player_id)
 
 @app.route('/players')
@@ -70,9 +84,25 @@ def list_players():
     if room_code not in rooms:
         return jsonify(error=400, msg="Room does not exist")
     
-    players = rooms[room_code]
+    room = rooms[room_code]
+    players = room.players
     return jsonify(list(p.name for p in players))
+
+@app.route('/start')
+def start_game():
+    required_args = ['room']
+    if any(arg not in request.args for arg in required_args):
+        return jsonify(error=400, msg="Invalid Request")
+        
+    room_code = request.args['room']
+
+    if room_code not in rooms:
+        return jsonify(error=400, msg="Room does not exist")
     
+    room = rooms[room_code]
+    room.open = False
+    return jsonify(success=True)
+
 @app.route('/')
 def ping():
     return jsonify(success=True)
