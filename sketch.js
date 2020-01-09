@@ -41,6 +41,8 @@ let rock, paper, scissors                // right handed images
 let rocki, paperi, scissorsi             // left handed (inverted) images
 let container_top                        // Height of game logo
 let container_height                     // Height of game's play area
+let text_box_width
+let text_box_height
 let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
@@ -89,6 +91,8 @@ function setup() {
 function draw() {
     background('#FCD319')
 
+    text_box_width = min(width * 0.8, 500)
+    text_box_height = text_box_width * 0.12
     btn_width = min(300, width/2)
     btn_height = btn_width/4
     btn_text_size = btn_height*0.7
@@ -209,6 +213,27 @@ function show_logo() {
     }
 }
 
+function add_text_field(text_field_var, x, field_name) {
+    textSize(text_box_height * 0.5)
+    text(field_name, width * 0.1, container_top + container_height * (x-0.005))
+
+    rectMode(CORNER)
+    noFill()
+    stroke(0)
+    strokeWeight(4)
+
+    if (x == 0.2 && room_code_selected ||
+        x == 0.5 && user_name_selected) {
+            fill(255, 108, 23, 200)
+    }
+    rect(width * 0.1, container_top + container_height * x, text_box_width, text_box_height)
+
+    fill(0)
+    noStroke()
+    textSize(text_box_height * 0.8)
+    text(text_field_var, width * 0.11, container_top + container_height * (x-0.005), text_box_width, text_box_height)
+}
+
 function show_welcome_screen() {
     stroke(0)
     strokeWeight(4)
@@ -282,34 +307,9 @@ function show_hosting_screen() {
 }
 
 function show_joining_screen() {
-
-    function add_text_field(text_field_var, x, field_name) {
-        textSize(text_box_height * 0.5)
-        text(field_name, width * 0.1, container_top + container_height * (x-0.005))
-
-        rectMode(CORNER)
-        noFill()
-        stroke(0)
-        strokeWeight(4)
-
-        if (x == 0.2 && room_code_selected ||
-            x == 0.5 && user_name_selected) {
-                fill(255, 108, 23, 200)
-        }
-        rect(width * 0.1, container_top + container_height * x, text_box_width, text_box_height)
-    
-        fill(0)
-        noStroke()
-        textSize(text_box_height * 0.8)
-        text(text_field_var, width * 0.11, container_top + container_height * (x-0.005), text_box_width, text_box_height)
-    }
-
     fill(0)
     noStroke()
     textAlign(LEFT, BOTTOM)
-    
-    let text_box_width = min(width * 0.8, 500)
-    let text_box_height = text_box_width * 0.12
     
     add_text_field(room_code, 0.2, "Enter Room Code: ")
     add_text_field(user_name, 0.5, "Enter Your Name: ")
