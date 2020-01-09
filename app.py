@@ -8,6 +8,8 @@ app = Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
+hand_strings = ['r', 'p', 's']
+
 class Hand(Enum):
     ROCK = auto()
     PAPER = auto()
@@ -21,9 +23,12 @@ class Player:
         self.hand = None
 
 class Room:
+    max_rounds = 10
+
     def __init__(self, room_code):
         self.room_code = room_code
         self.open = True
+        self.round = 0
         self.players = []
     
     def add_player(self, player):
@@ -113,6 +118,40 @@ def start_game():
     
     room = rooms[room_code]
     room.open = False
+    return jsonify(success=True)
+
+@app.route('/play')
+def play_round():
+    required_args = ['room', 'id', 'hand']
+    if any(arg not in request.args for arg in required_args):
+        return jsonify(error=400, msg="Invalid Request")
+        
+    room_code = request.args['room']
+    player_id = request.args['id']
+    hand = request.args['hand']
+
+    if hand not in hand_strings:
+        return jsonify(error=401, message="Invalid hand")
+
+    if room_code not in rooms:
+        return jsonify(error=400, message="Room does not exist")
+    
+    room = rooms[room_code]
+
+    player = None
+    for p in room.players:
+        if p.pid == player_id:
+            player = p
+    
+    if player is None:
+        return jsonify(error=401, message="Player ID invalid")
+    
+    player.hand = (
+        Hand.ROCK if hand == 'r' else
+        Hand.PAPER if hand == 'p' else
+        Hand.SCISSORS
+    )
+
     return jsonify(success=True)
 
 @app.route('/')
