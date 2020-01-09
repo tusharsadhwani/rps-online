@@ -157,8 +157,8 @@ function mousePressed() {
             }
             break
         case Status.HOSTING:
-            if (mouseY >= container_top + container_height*0.8 - btn_height/2 &&
-                mouseY <= container_top + container_height*0.8 + btn_height/2 &&
+            if (mouseY >= container_top + container_height - btn_height/2 &&
+                mouseY <= container_top + container_height + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
                 mouseX <= (width + btn_width) / 2) {
                     fetch(`${url}/start?room=${room_code}`)
@@ -322,7 +322,7 @@ function show_hosting_screen() {
     noStroke()
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
-    text(`Room Code: ${room_code}`, width/2, container_top + container_height*0.2)
+    text(`Room Code: ${room_code}`, width/2, container_top + container_height * 0.1)
 
     if (!fetching_data) {
         fetching_data = true
@@ -343,19 +343,19 @@ function show_hosting_screen() {
     noStroke()
     textSize(btn_text_size/2)
     textAlign(CENTER, TOP)
-    text(players_text, width/2, container_top + container_height*0.4)
+    text(players_text, width/2, container_top + container_height*0.15)
 
     fill('green')
     stroke(0)
     strokeWeight(4)
     rectMode(CENTER)
-    rect(width/2, container_top + container_height * 0.8, btn_width, btn_height)
+    rect(width/2, container_top + container_height, btn_width, btn_height)
 
     fill(0)
     noStroke()
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
-    text("Start Game", width/2, container_top + container_height * 0.8)
+    text("Start Game", width/2, container_top + container_height)
 }
 
 function show_joining_screen() {
