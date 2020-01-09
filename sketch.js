@@ -279,7 +279,7 @@ function show_newgame_screen() {
     noStroke()
     textSize(btn_text_size)
     textAlign(CENTER, CENTER)
-    text("Join", width/2, container_top + container_height * 0.8)
+    text("Create", width/2, container_top + container_height * 0.8)
 }
 
 function show_generating_screen() {
