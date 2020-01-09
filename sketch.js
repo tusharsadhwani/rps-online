@@ -11,8 +11,8 @@
 let PA_USERNAME = 'tusharsadhwani'            //
 ////////////////////////////////////////////////
 
-// let url = `https://${PA_USERNAME}.pythonanywhere.com`
-let url = 'http://localhost:5000'
+let url = `https://${PA_USERNAME}.pythonanywhere.com`
+// let url = 'http://localhost:5000'
 
 // Placeholder values for use in various functions
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
@@ -55,8 +55,7 @@ let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
 let players = []                         // List of players
 let chosen_hand = null                   // The hand chosen by user for next round
-let hands                                // TODO: remove this variable
-
+let timer_started = false                // Flag to refresh page after displaying hands
 
 function preload() {
     // Load the image assets before starting the draw loop
@@ -82,12 +81,6 @@ function setup() {
     container_top = height * 0.1
     container_height = height * 0.8
 
-    // Setup random hands
-    let people = 3
-    hands = []
-    for (let i = 0; i < people; i++) {
-        hands.push(randomHand())
-    }
     setup_logo()
     status = Status.WELCOME
 }
@@ -126,6 +119,13 @@ function draw() {
             show_buttons()
             break
         case Status.DISPLAYING:
+            if (!timer_started) {
+                setTimeout(() => {
+                    chosen_hand = null
+                    status = Status.WAITING
+                }, 6000)
+                timer_started = true
+            }
             show_hands()
             show_buttons()
             break
@@ -499,7 +499,7 @@ function show_waiting_screen() {
 }
 
 function show_hands() {
-    let people = hands.length
+    let people = players.length
 
     let people_right = Math.floor(people/2)
     let people_left = people - people_right
@@ -539,16 +539,16 @@ function show_hands() {
     noStroke()
     for (let i = 0; i < left_y.length; i++) {
         let y = left_y[i]
-        let hand = get_left_img(hands[i])
+        let hand = get_left_img(players[i].hand)
         image(hand, 0, y - image_height/2 - y_offset, image_width, image_height)
-        text("testing123", image_width/2, y + image_height/2)
+        text(players[i].name, image_width/2, y + image_height/2)
     }
 
     for (let i = 0; i < right_y.length; i++) {
         let y = right_y[i]
-        let hand = get_right_img(hands[people_left+i])
+        let hand = get_right_img(players[people_left+i].hand)
         image(hand, width, y - image_height/2 - y_offset, -image_width, image_height)
-        text("testing123", width - image_width/2, y + image_height/2)
+        text(players[people_left+i].name, width - image_width/2, y + image_height/2)
     }
 }
 
