@@ -53,7 +53,7 @@ let user_name_selected = false           // Unselected by default
 let room_code = ""                       // Code of the room created by the host
 let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
-let players = []                         // List of names of players
+let players = []                         // List of players
 let chosen_hand = null                   // The hand chosen by user for next round
 let hands                                // TODO: remove this variable
 
@@ -372,14 +372,14 @@ function show_hosting_screen() {
         fetch(`${url}/players?room=${room_code}`)
             .then(res => res.json())
             .then(data => {
-                players = Object.keys(data.players)
+                players = data.players
                 fetching_data = false
             })
     }
 
     let players_text = "Players:"
     for (let player of players) {
-        players_text += `\n${player}`
+        players_text += `\n${player.name}`
     }
 
     fill(0)
@@ -425,7 +425,7 @@ function show_waiting_screen() {
         fetch(`${url}/players?room=${room_code}`)
             .then(res => res.json())
             .then(data => {
-                players = Object.keys(data.players)
+                players = data.players
                 fetching_data = false
                 if (data.ready === true) {
                     status = Status.DISPLAYING
@@ -435,7 +435,7 @@ function show_waiting_screen() {
 
     let players_text = "Players:"
     for (let player of players) {
-        players_text += `\n${player}`
+        players_text += `\n${player.name}`
     }
     
     fill(0)
