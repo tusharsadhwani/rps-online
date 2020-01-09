@@ -141,6 +141,12 @@ function mousePressed() {
                     user_name_selected = true
                     room_code_selected = false
             }
+            else if (mouseY >= container_top + container_height*0.6 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.6 + btn_height/2 &&
+                mouseX >= (width - btn_width) / 2 &&
+                mouseX <= (width + btn_width) / 2) {
+                    status = Status.JOINING
+            }
             break
         case Status.NEWGAME:
             if (mouseY >= container_top + container_height*0.8 - btn_height/2 &&
