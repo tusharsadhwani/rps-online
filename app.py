@@ -113,7 +113,7 @@ def list_players():
         ready = True
     else:
         ready = False
-    return jsonify(ready=ready, players={p.name: p.hand_char for p in players})
+    return jsonify(ready=ready, players=[{'name': p.name, 'hand': p.hand_char} for p in players])
     
 @app.route('/start')
 def start_game():
