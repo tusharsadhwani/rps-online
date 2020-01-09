@@ -42,8 +42,8 @@ let rock, paper, scissors                // right handed images
 let rocki, paperi, scissorsi             // left handed (inverted) images
 let container_top                        // Height of game logo
 let container_height                     // Height of game's play area
-let text_box_width
-let text_box_height
+let text_box_width                       // width of an input text box
+let text_box_height                      // height of an input text box
 let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
