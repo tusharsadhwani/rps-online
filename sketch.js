@@ -22,6 +22,7 @@ let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
 // and display stuff accordingly
 let Status = {
     WELCOME: 'home screen',
+    NEWGAME: 'setup to host a new game',
     GENERATING: 'generating new room',
     HOSTING: 'host a new game',
     JOINING: 'waiting for players to join game',
@@ -102,6 +103,9 @@ function draw() {
         case Status.WELCOME:
             show_welcome_screen()
             break
+        case Status.NEWGAME:
+            show_newgame_screen()
+            break
         case Status.GENERATING:
             show_generating_screen()
             break
@@ -134,14 +138,17 @@ function mousePressed() {
                 mouseY <= container_top + container_height*0.4 + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
                 mouseX <= (width + btn_width) / 2) {
-                    status = Status.GENERATING
+                    status = Status.NEWGAME
+                    user_name_selected = true
+                    room_code_selected = false
             }
-
-            if (mouseY >= container_top + container_height*0.6 - btn_height/2 &&
-                mouseY <= container_top + container_height*0.6 + btn_height/2 &&
+            break
+        case Status.NEWGAME:
+            if (mouseY >= container_top + container_height*0.8 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.8 + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
                 mouseX <= (width + btn_width) / 2) {
-                    status = Status.JOINING
+                    status = Status.GENERATING
             }
             break
         case Status.JOINING:
@@ -168,7 +175,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
-    if (status == Status.JOINING) {
+    if (status == Status.JOINING || Status.NEWGAME) {
         if (key == 'Backspace') {
             if (user_name_selected && user_name.length > 0)
                 user_name = user_name.slice(0, -1)
@@ -259,6 +266,22 @@ function show_welcome_screen() {
     text("Join Game", width/2, container_top + container_height * 0.6)
 }
 
+function show_newgame_screen() {
+    add_text_field(user_name, 0.5, 'Enter your name: ')
+
+    fill('green')
+    stroke(0)
+    strokeWeight(4)
+    rectMode(CENTER)
+    rect(width/2, container_top + container_height * 0.8, btn_width, btn_height)
+
+    fill(0)
+    noStroke()
+    textSize(btn_text_size)
+    textAlign(CENTER, CENTER)
+    text("Join", width/2, container_top + container_height * 0.8)
+}
+
 function show_generating_screen() {
     fill(0)
     noStroke()
@@ -268,7 +291,7 @@ function show_generating_screen() {
 
     if (!fetching_data) {
         fetching_data = true
-        fetch(`${url}/new`)
+        fetch(`${url}/new?name=${user_name}`)
             .then(res => res.json())
             .then(data => {
                 room_code = data.code
