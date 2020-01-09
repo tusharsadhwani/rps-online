@@ -16,8 +16,23 @@ class Player:
 rooms = {}
 ids = []
 
+def add_new_player(user_name, room_code):
+    while True:
+        player_id = random.randrange(1, 1_000_000)
+        if player_id not in ids:
+            break
+    
+    rooms[room_code].append(Player(pid=player_id, name=user_name))
+    return player_id
+
 @app.route('/new')
 def new_game():
+    required_args = ['name']
+    if any(arg not in request.args for arg in required_args):
+        return jsonify(error=400, msg="Invalid Request")
+        
+    user_name = request.args['name']
+
     while True:
         room_code = ''
         for _ in range(5):
@@ -27,7 +42,8 @@ def new_game():
             rooms[room_code] = []
             break
 
-    return jsonify({'code': room_code})
+    player_id = add_new_player(user_name, room_code)
+    return jsonify(code=room_code)
 
 @app.route('/join')
 def join_game():
@@ -41,12 +57,7 @@ def join_game():
     if room_code not in rooms:
         return jsonify(error=400, msg="Room does not exist")
     
-    while True:
-        player_id = random.randrange(1, 1_000_000)
-        if player_id not in ids:
-            break
-    
-    rooms[room_code].append(Player(pid=player_id, name=user_name))
+    player_id = add_new_player(user_name, room_code)
     return jsonify(id=player_id)
 
 @app.route('/players')
