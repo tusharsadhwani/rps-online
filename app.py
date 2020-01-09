@@ -1,5 +1,6 @@
 import random
 import string
+from enum import Enum, auto
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -7,11 +8,17 @@ app = Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
+class Hand(Enum):
+    ROCK = auto()
+    PAPER = auto()
+    SCISSORS = auto()
+
 class Player:
     def __init__(self, pid, name):
         self.pid = pid
         self.name = name
         self.score = 0
+        self.hand = None
 
 class Room:
     def __init__(self, room_code):
