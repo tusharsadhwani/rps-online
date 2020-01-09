@@ -65,7 +65,7 @@ def new_game():
             break
 
     player_id = add_new_player(user_name, new_room)
-    return jsonify(code=room_code)
+    return jsonify(code=room_code, id=player_id)
 
 @app.route('/join')
 def join_game():

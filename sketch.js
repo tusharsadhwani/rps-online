@@ -47,6 +47,7 @@ let text_box_height                      // height of an input text box
 let btn_width                            // width of a button in-game
 let btn_height                           // height of a button in-game
 let btn_text_size                        // textSize for button in-game
+let user_id                              // player_id of the user
 let user_name = ""                       // The name the user enters during joining
 let user_name_selected = false           // Unselected by default
 let room_code = ""                       // Code of the room created by the host
@@ -180,6 +181,7 @@ function mousePressed() {
                     fetch(`${url}/join?room=${room_code}&name=${user_name}`)
                         .then(res => res.json())
                         .then(data => {
+                            user_id = data.id
                             status = Status.WAITING
                         })
             } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
@@ -315,6 +317,7 @@ function show_generating_screen() {
             .then(res => res.json())
             .then(data => {
                 room_code = data.code
+                user_id = data.id
                 fetching_data = false
                 status = Status.HOSTING
             })
