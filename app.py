@@ -11,9 +11,9 @@ app.config["DEBUG"] = True
 hand_strings = ['r', 'p', 's']
 
 class Hand(Enum):
-    ROCK = auto()
-    PAPER = auto()
-    SCISSORS = auto()
+    ROCK = 'r'
+    PAPER = 'p'
+    SCISSORS = 's'
 
 class Player:
     def __init__(self, pid, name):
@@ -21,6 +21,12 @@ class Player:
         self.name = name
         self.score = 0
         self.hand = None
+    
+    @property
+    def hand_char(self):
+        if self.hand is None:
+            return None
+        return self.hand.value
 
 class Room:
     max_rounds = 10
@@ -103,8 +109,12 @@ def list_players():
     
     room = rooms[room_code]
     players = room.players
-    return jsonify(list(p.name for p in players))
-
+    if all(p.hand is not None for p in players):
+        ready = True
+    else:
+        ready = False
+    return jsonify(ready=ready, players={p.name: p.hand_char for p in players})
+    
 @app.route('/start')
 def start_game():
     required_args = ['room']

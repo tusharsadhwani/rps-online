@@ -372,7 +372,7 @@ function show_hosting_screen() {
         fetch(`${url}/players?room=${room_code}`)
             .then(res => res.json())
             .then(data => {
-                players = data
+                players = Object.keys(data.players)
                 fetching_data = false
             })
     }
@@ -425,8 +425,11 @@ function show_waiting_screen() {
         fetch(`${url}/players?room=${room_code}`)
             .then(res => res.json())
             .then(data => {
-                players = data
+                players = Object.keys(data.players)
                 fetching_data = false
+                if (data.ready === true) {
+                    status = Status.DISPLAYING
+                }
             })
     }
 
