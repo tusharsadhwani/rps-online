@@ -53,7 +53,9 @@ let room_code = ""                       // Code of the room created by the host
 let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
 let players = []                         // List of names of players
+let chosen_hand = ROCK                   // The hand chosen by user for next round
 let hands                                // TODO: remove this variable
+
 
 function preload() {
     // Load the image assets before starting the draw loop
@@ -117,8 +119,10 @@ function draw() {
             break
         case Status.WAITING:
             show_waiting_screen()
+            show_buttons()
             break
         case Status.ANIMATING:
+            show_buttons()
             break
         case Status.DISPLAYING:
             show_hands()
@@ -391,12 +395,61 @@ function show_waiting_screen() {
     for (let player of players) {
         players_text += `\n${player}`
     }
-
+    
     fill(0)
     noStroke()
-    textSize(btn_text_size/2)
-    textAlign(CENTER, CENTER)
-    text(players_text, width/2, container_top + container_height*0.6)
+    imageMode(CENTER)
+    if (height/width < 1.3) {
+        textAlign(LEFT, CENTER)
+        textSize(btn_text_size/2)
+        text(players_text, width/50, container_top + container_height*0.5)
+
+        let max_image_width = width/2
+        let max_image_height = container_height/2
+        let image_width
+        let image_height
+
+        if (max_image_width <= max_image_height * 1.5) {
+            image_width = max_image_width
+            image_height = image_width / 1.5
+        } else {
+            image_height = max_image_height
+            image_width = image_height * 1.5
+        }
+
+        textSize(btn_text_size)
+        textAlign(RIGHT, BOTTOM)
+        text('Chosen Hand:', width - width/50, height/2 - image_height*0.6)
+        let hand_img = get_left_img(chosen_hand)
+        image(hand_img, width - image_width/2, height/2, image_width*0.8, image_height*0.8)
+    } else {
+        textAlign(CENTER, TOP)
+        textSize(btn_text_size/2)
+        text(players_text, width/2, container_top + container_height * 0.05)
+
+        let max_image_width = width
+        let max_image_height = container_height * 0.4
+
+        let image_width
+        let image_height
+        if (max_image_width <= max_image_height * 1.5) {
+            image_width = max_image_width
+            image_height = image_width / 1.5
+        } else {
+            image_height = max_image_height
+            image_width = image_height * 1.5
+        }
+        textSize(btn_text_size)
+        textAlign(CENTER, BOTTOM)
+        text('Chosen Hand:', width/2, container_top + container_height - image_height)
+        let hand_img = get_left_img(chosen_hand)
+        image(
+            hand_img,
+            width/2, container_top + container_height - image_height/2,
+            image_width*0.8, image_height*0.8
+        )
+    }
+
 }
 
 function show_hands() {
