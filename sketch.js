@@ -194,22 +194,35 @@ function mousePressed() {
             }
             break
         case Status.WAITING:
+            async function play_hand(hand) {
+                const res = await fetch(`${url}/play?room=${room_code}&id=${user_id}&hand=${hand}`)
+                const data = await res.json()
+                if (data.success === true) {
+                    return true
+                }
+                return false
+            }
             if (mouseY >= container_height) {
-                print('ok')
                 let button_width = min(width * 0.3, height*0.3)
                 for (let i = 0; i < 3; i++) {
                     let offset = width/6 + i*(width/3)
                     if (mouseX >= offset - button_width/2 &&
                         mouseX <= offset + button_width/2) {
+                            let success
                             switch(i) {
                                 case 0:
-                                    chosen_hand = ROCK
+                                    success = play_hand(ROCK)
+                                    if (success) {
+                                        chosen_hand = ROCK
+                                    }
                                     break
                                 case 1:
-                                    chosen_hand = PAPER
+                                    success = play_hand(PAPER)
+                                    if (success) chosen_hand = PAPER
                                     break
                                 case 2:
-                                    chosen_hand = SCISSORS
+                                    success = play_hand(SCISSORS)
+                                    if (success) chosen_hand = SCISSORS
                                     break
                             }
                     }
