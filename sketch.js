@@ -193,6 +193,29 @@ function mousePressed() {
                 room_code_selected = true
             }
             break
+        case Status.WAITING:
+            if (mouseY >= container_height) {
+                print('ok')
+                let button_width = min(width * 0.3, height*0.3)
+                for (let i = 0; i < 3; i++) {
+                    let offset = width/6 + i*(width/3)
+                    if (mouseX >= offset - button_width/2 &&
+                        mouseX <= offset + button_width/2) {
+                            switch(i) {
+                                case 0:
+                                    chosen_hand = ROCK
+                                    break
+                                case 1:
+                                    chosen_hand = PAPER
+                                    break
+                                case 2:
+                                    chosen_hand = SCISSORS
+                                    break
+                            }
+                    }
+                }
+            }
+            break
     }
 }
 
