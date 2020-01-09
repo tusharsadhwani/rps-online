@@ -130,7 +130,6 @@ function draw() {
     }
 }
 
-
 function mousePressed() {
     switch (status) {
         case Status.WELCOME:
@@ -159,7 +158,6 @@ function mousePressed() {
                     fetch(`${url}/join?room=${room_code}&name=${user_name}`)
                         .then(res => res.json())
                         .then(data => {
-                            console.log(data)
                             status = Status.WAITING
                         })
             } else if (mouseY <= container_top + container_height*0.8 - btn_height/2 &&
