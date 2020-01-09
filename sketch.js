@@ -214,6 +214,7 @@ function show_logo() {
 }
 
 function add_text_field(text_field_var, x, field_name) {
+    textAlign(LEFT, BOTTOM)
     textSize(text_box_height * 0.5)
     text(field_name, width * 0.1, container_top + container_height * (x-0.005))
 
@@ -307,9 +308,6 @@ function show_hosting_screen() {
 }
 
 function show_joining_screen() {
-    fill(0)
-    noStroke()
-    textAlign(LEFT, BOTTOM)
     
     add_text_field(room_code, 0.2, "Enter Room Code: ")
     add_text_field(user_name, 0.5, "Enter Your Name: ")
