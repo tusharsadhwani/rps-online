@@ -11,8 +11,8 @@
 let PA_USERNAME = 'tusharsadhwani'            //
 ////////////////////////////////////////////////
 
-// let url = `https://${PA_USERNAME}.pythonanywhere.com`
-let url = 'http://localhost:5000'
+let url = `https://${PA_USERNAME}.pythonanywhere.com`
+// let url = 'http://localhost:5000'
 
 // Placeholder values for use in various functions
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
