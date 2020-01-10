@@ -213,7 +213,6 @@ function mousePressed() {
             async function play_hand(hand) {
                 const res = await fetch(`${url}/play?room=${room_code}&id=${user_id}&hand=${hand}&round=${round}`)
                 const data = await res.json()
-                console.log(data)
                 if (data.success === true) {
                     return true
                 }
