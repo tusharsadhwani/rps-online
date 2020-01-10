@@ -40,6 +40,7 @@ let logo_portrait, logo_landscape        // hold both logo Image objects
 let rock_text, paper_text, scissors_text // hold images for the texts
 let rock, paper, scissors                // right handed images
 let rocki, paperi, scissorsi             // left handed (inverted) images
+let generate_img                            // image for name generate button
 let container_top                        // Height of game logo
 let container_height                     // Height of game's play area
 let text_box_width                       // width of an input text box
@@ -71,6 +72,8 @@ function preload() {
     logo_portrait = loadImage('./assets/logo-portrait.png')
     logo_landscape = loadImage('./assets/logo-landscape.png')
 
+    generate_img = loadImage('./assets/reset.png')
+
     rock_text = loadImage('./assets/text1.png')
     paper_text = loadImage('./assets/text2.png')
     scissors_text = loadImage('./assets/text3.png')
@@ -99,7 +102,7 @@ function setup() {
 function draw() {
     background('#FCD319')
 
-    text_box_width = min(width * 0.8, 500)
+    text_box_width = min(width * 0.7, 500)
     text_box_height = text_box_width * 0.12
     btn_width = min(300, width/2)
     btn_height = btn_width/4
@@ -312,6 +315,20 @@ function add_text_field(text_field_var, x, field_name) {
     text(text_field_var, width * 0.11, container_top + container_height * (x-0.005), text_box_width, text_box_height)
 }
 
+function add_rng_button() {
+    rectMode(CORNER)
+    imageMode(CENTER)
+    noFill()
+    stroke(0)
+    strokeWeight(4)
+    rect(width*0.11 + text_box_width + 4, container_top + container_height*0.5, text_box_height, text_box_height)
+    image(
+        generate_img,
+        width*0.11 + text_box_width + text_box_height/2 + 4, container_top + container_height*0.5 + text_box_height/2,
+        text_box_height*0.7, text_box_height*0.7
+    )
+}
+
 function show_welcome_screen() {
     stroke(0)
     strokeWeight(4)
@@ -338,6 +355,7 @@ function show_welcome_screen() {
 
 function show_newgame_screen() {
     add_text_field(user_name, 0.5, 'Enter your name: ')
+    add_rng_button()
 
     fill('green')
     stroke(0)
@@ -414,9 +432,9 @@ function show_hosting_screen() {
 }
 
 function show_joining_screen() {
-    
     add_text_field(room_code, 0.2, "Enter Room Code: ")
     add_text_field(user_name, 0.5, "Enter Your Name: ")
+    add_rng_button()
 
     fill('green')
     stroke(0)
