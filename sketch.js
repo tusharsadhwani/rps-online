@@ -83,7 +83,17 @@ function setup() {
     container_height = height * 0.8
 
     setup_logo()
-    status = Status.WELCOME
+
+    const url_string = window.location.href
+    const url = new URL(url_string)
+
+    const url_room_code = url.searchParams.get("room")
+    if (url_room_code) {
+        room_code = url_room_code
+        status = Status.JOINING
+    } else {
+        status = Status.WELCOME
+    }
 }
 
 function draw() {
