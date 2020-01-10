@@ -97,6 +97,8 @@ function setup() {
 }
 
 function draw() {
+    background('#FCD319')
+
     text_box_width = min(width * 0.8, 500)
     text_box_height = text_box_width * 0.12
     btn_width = min(300, width/2)
