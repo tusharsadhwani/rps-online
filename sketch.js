@@ -123,6 +123,7 @@ function draw() {
                 setTimeout(() => {
                     chosen_hand = null
                     status = Status.WAITING
+                    timer_started = false
                 }, 6000)
                 timer_started = true
             }
