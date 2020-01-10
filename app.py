@@ -34,7 +34,7 @@ class Room:
     def __init__(self, room_code):
         self.room_code = room_code
         self.open = True
-        self.round = 0
+        self.round = 1
         self.players = []
     
     def add_player(self, player):
@@ -99,16 +99,23 @@ def join_game():
 
 @app.route('/players')
 def list_players():
-    required_args = ['room']
+    required_args = ['room', 'round']
     if any(arg not in request.args for arg in required_args):
         return jsonify(error=400, msg="Invalid Request")
         
     room_code = request.args['room']
+    round_no = int(request.args['round'])
+
     if room_code not in rooms:
         return jsonify(error=400, msg="Room does not exist")
     
     room = rooms[room_code]
     players = room.players
+
+    print('Rounds:', round_no, room.round)
+    if round_no != room.round:
+        return jsonify(ready=False, players=[{'name': p.name, 'hand': None} for p in players])
+
     if all(p.hand is not None for p in players):
         ready = True
     else:
@@ -132,12 +139,13 @@ def start_game():
 
 @app.route('/play')
 def play_round():
-    required_args = ['room', 'id', 'hand']
+    required_args = ['room', 'id', 'round', 'hand']
     if any(arg not in request.args for arg in required_args):
         return jsonify(error=400, msg="Invalid Request")
         
     room_code = request.args['room']
     player_id = int(request.args['id'])
+    round_no = int(request.args['round'])
     hand = request.args['hand']
 
     if hand not in hand_strings:
@@ -156,6 +164,16 @@ def play_round():
     if player is None:
         return jsonify(error=401, message="Player ID invalid")
     
+    if round_no > room.round:
+        if (round_no == room.round + 1
+            and all(p.hand is not None for p in room.players)):
+                room.round += 1
+                for p in room.players:
+                    p.hand = None
+        else:
+            print("Invalid round")
+            return jsonify(error=401, message="Invalid round number")
+
     player.hand = (
         Hand.ROCK if hand == 'r' else
         Hand.PAPER if hand == 'p' else

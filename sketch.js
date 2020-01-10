@@ -54,6 +54,7 @@ let room_code = ""                       // Code of the room created by the host
 let room_code_selected = true            // Selected by default
 let fetching_data = false                // Set to true whenever HTTP req. in place
 let players = []                         // List of players
+let round = 1                            // Counts the round number of the game
 let chosen_hand = null                   // The hand chosen by user for next round
 let timer_started = false                // Flag to refresh page after displaying hands
 
@@ -86,6 +87,7 @@ function setup() {
 }
 
 function draw() {
+    print(round, chosen_hand)
     background('#FCD319')
 
     text_box_width = min(width * 0.8, 500)
@@ -121,6 +123,7 @@ function draw() {
         case Status.DISPLAYING:
             if (!timer_started) {
                 setTimeout(() => {
+                    round++
                     chosen_hand = null
                     status = Status.WAITING
                     timer_started = false
@@ -196,8 +199,9 @@ function mousePressed() {
             break
         case Status.WAITING:
             async function play_hand(hand) {
-                const res = await fetch(`${url}/play?room=${room_code}&id=${user_id}&hand=${hand}`)
+                const res = await fetch(`${url}/play?room=${room_code}&id=${user_id}&hand=${hand}&round=${round}`)
                 const data = await res.json()
+                console.log(data)
                 if (data.success === true) {
                     return true
                 }
@@ -213,9 +217,7 @@ function mousePressed() {
                             switch(i) {
                                 case 0:
                                     success = play_hand(ROCK)
-                                    if (success) {
-                                        chosen_hand = ROCK
-                                    }
+                                    if (success) chosen_hand = ROCK
                                     break
                                 case 1:
                                     success = play_hand(PAPER)
@@ -370,7 +372,7 @@ function show_hosting_screen() {
 
     if (!fetching_data) {
         fetching_data = true
-        fetch(`${url}/players?room=${room_code}`)
+        fetch(`${url}/players?room=${room_code}&round=${round}`)
             .then(res => res.json())
             .then(data => {
                 players = data.players
@@ -423,7 +425,7 @@ function show_joining_screen() {
 function show_waiting_screen() {
     if (!fetching_data) {
         fetching_data = true
-        fetch(`${url}/players?room=${room_code}`)
+        fetch(`${url}/players?room=${room_code}&round=${round}`)
             .then(res => res.json())
             .then(data => {
                 players = data.players
@@ -443,6 +445,10 @@ function show_waiting_screen() {
     noStroke()
     imageMode(CENTER)
     if (height/width < 1.3) {
+        textAlign(CENTER, TOP)
+        textSize(btn_text_size)
+        text(`Round ${round}`, width/2, container_top)
+        
         textAlign(LEFT, CENTER)
         textSize(btn_text_size/2)
         text(players_text, width/50, container_top + container_height*0.5)
@@ -469,8 +475,12 @@ function show_waiting_screen() {
         }
     } else {
         textAlign(CENTER, TOP)
+        textSize(btn_text_size)
+        text(`Round ${round}`, width/2, container_top + container_height * 0.02)
+
+        textAlign(CENTER, TOP)
         textSize(btn_text_size/2)
-        text(players_text, width/2, container_top + container_height * 0.05)
+        text(players_text, width/2, container_top + container_height * 0.1)
 
         let max_image_width = width
         let max_image_height = container_height * 0.4
