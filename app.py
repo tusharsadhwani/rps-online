@@ -1,6 +1,6 @@
 import random
 import string
-from enum import Enum, auto
+from enum import Enum
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
