@@ -112,8 +112,10 @@ def list_players():
     room = rooms[room_code]
     players = room.players
 
-    print('Rounds:', round_no, room.round)
     if round_no != room.round:
+        if round_no > room.max_rounds:
+            return jsonify(gameover=True)
+
         return jsonify(ready=False, players=[{'name': p.name, 'hand': None} for p in players])
 
     if all(p.hand is not None for p in players):

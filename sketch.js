@@ -11,8 +11,8 @@
 let PA_USERNAME = 'tusharsadhwani'            //
 ////////////////////////////////////////////////
 
-let url = `https://${PA_USERNAME}.pythonanywhere.com`
-// let url = 'http://localhost:5000'
+// let url = `https://${PA_USERNAME}.pythonanywhere.com`
+let url = 'http://localhost:5000'
 
 // Placeholder values for use in various functions
 let ROCK = 'r', PAPER = 'p', SCISSORS = 's'
@@ -428,9 +428,11 @@ function show_waiting_screen() {
         fetch(`${url}/players?room=${room_code}&round=${round}`)
             .then(res => res.json())
             .then(data => {
-                players = data.players
                 fetching_data = false
-                if (data.ready === true) {
+                if (data.gameover === true) {
+                    status = Status.GAMEOVER
+                } else if (data.ready === true) {
+                    players = data.players
                     status = Status.DISPLAYING
                 }
             })
