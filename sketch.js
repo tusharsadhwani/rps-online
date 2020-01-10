@@ -190,6 +190,13 @@ function mousePressed() {
             }
             break
         case Status.JOINING:
+            if (mouseY >= container_top + container_height*0.5 - btn_height/2 &&
+                mouseY <= container_top + container_height*0.5 + btn_height/2 &&
+                mouseX >= width*0.11 + text_box_width + 4 &&
+                mouseX <= width*0.11 + text_box_width + 4 + text_box_height) {
+                    user_name = names[Math.floor(Math.random() * names.length)]
+            }
+
             if (mouseY >= container_top + container_height*0.8 - btn_height/2 &&
                 mouseY <= container_top + container_height*0.8 + btn_height/2 &&
                 mouseX >= (width - btn_width) / 2 &&
