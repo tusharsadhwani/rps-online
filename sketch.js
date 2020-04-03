@@ -185,8 +185,8 @@ function mousePressed() {
       }
 
       if (
-        mouseY >= container_top + container_height * 0.8 &&
-        mouseY <= container_top + container_height * 0.8 + btn_height &&
+        mouseY >= container_top + container_height * 0.8 - btn_height / 2 &&
+        mouseY <= container_top + container_height * 0.8 + btn_height / 2 &&
         mouseX >= (width - btn_width) / 2 &&
         mouseX <= (width + btn_width) / 2
       ) {
