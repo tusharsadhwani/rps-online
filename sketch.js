@@ -8,11 +8,13 @@
 //   tusharsadhwani.pythonanywhere.com        //
 //   so my username is 'tusharsadhwani'       //
 //                                            //
-let PA_USERNAME = "tusharsadhwani"; //
+let PA_USERNAME = "tusharsadhwani";
+let GITHUB_USERNAME = "tusharsadhwani";
 ////////////////////////////////////////////////
 
 let url = `https://${PA_USERNAME}.pythonanywhere.com`;
 // let url = 'http://localhost:5000'
+let github_url = `https://${GITHUB_USERNAME}.github.io/rps-online`;
 
 // Placeholder values for use in various functions
 let ROCK = "r",
@@ -60,6 +62,7 @@ let players = []; // List of players
 let round = 1; // Counts the round number of the game
 let chosen_hand = null; // The hand chosen by user for next round
 let timer_started = false; // Flag to refresh page after displaying hands
+let copy_link_text = "Copy Link"; // Text for copy link button
 
 function preload() {
   // Load the image assets before starting the draw loop
@@ -194,6 +197,23 @@ function mousePressed() {
       }
       break;
     case Status.HOSTING:
+      if (
+        mouseY >=
+          container_top + container_height * 0.22 - text_box_height / 2 &&
+        mouseY <=
+          container_top + container_height * 0.22 + text_box_height / 2 &&
+        mouseX >= (width - btn_width) / 2 &&
+        mouseX <= (width + btn_width) / 2
+      ) {
+        let dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = `${github_url}/?room=${room_code}`;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+        copy_link_text = "Copied!";
+        setTimeout(() => (copy_link_text = "Copy Link"), 3000);
+      }
       if (
         mouseY >= container_top + container_height - btn_height / 2 &&
         mouseY <= container_top + container_height + btn_height / 2 &&
@@ -464,6 +484,21 @@ function show_hosting_screen() {
     width / 2,
     container_top + container_height * 0.1
   );
+  rectMode(CENTER);
+  fill("red");
+  stroke(0);
+  strokeWeight(4);
+  rect(
+    width / 2,
+    container_top + container_height * 0.22,
+    btn_width,
+    text_box_height
+  );
+  fill(0);
+  noStroke();
+  textSize(btn_text_size);
+  textAlign(CENTER, CENTER);
+  text(copy_link_text, width / 2, container_top + container_height * 0.22);
 
   if (!fetching_data) {
     fetching_data = true;
@@ -484,7 +519,7 @@ function show_hosting_screen() {
   noStroke();
   textSize(btn_text_size / 2);
   textAlign(CENTER, TOP);
-  text(players_text, width / 2, container_top + container_height * 0.15);
+  text(players_text, width / 2, container_top + container_height * 0.3);
 
   fill("green");
   stroke(0);
