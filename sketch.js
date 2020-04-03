@@ -13,7 +13,7 @@ let GITHUB_USERNAME = "tusharsadhwani";
 ////////////////////////////////////////////////
 
 let url = `https://${PA_USERNAME}.pythonanywhere.com`;
-// let url = 'http://localhost:5000'
+// let url = "http://localhost:5000";
 let github_url = `https://${GITHUB_USERNAME}.github.io/rps-online`;
 
 // Placeholder values for use in various functions
@@ -63,6 +63,7 @@ let round = 1; // Counts the round number of the game
 let chosen_hand = null; // The hand chosen by user for next round
 let timer_started = false; // Flag to refresh page after displaying hands
 let copy_link_text = "Copy Link"; // Text for copy link button
+let final_scores; // variable to store final score
 
 function preload() {
   // Load the image assets before starting the draw loop
@@ -565,6 +566,7 @@ function show_waiting_screen() {
       .then(data => {
         fetching_data = false;
         if (data.gameover === true) {
+          final_scores = data.scores;
           status = Status.GAMEOVER;
         } else if (data.ready === true) {
           players = data.players;
@@ -755,10 +757,18 @@ function show_buttons() {
 }
 
 function show_gameover_screen() {
+  noStroke();
   fill(0);
   textAlign(CENTER, CENTER);
   textSize(width * 0.15);
-  text("Game Over", width / 2, height / 2);
+  text("Game Over", width / 2, height * 0.25);
+  let scores_text = "Scores:";
+  for (let score of final_scores) {
+    scores_text += `\n${score}`;
+  }
+  textAlign(CENTER, TOP);
+  textSize(btn_text_size / 2);
+  text(scores_text, width / 2, height * 0.5);
 }
 
 function randomHand() {
