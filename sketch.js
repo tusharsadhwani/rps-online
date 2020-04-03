@@ -176,8 +176,8 @@ function mousePressed() {
       break;
     case Status.NEWGAME:
       if (
-        mouseY >= container_top + container_height * 0.5 - btn_height / 2 &&
-        mouseY <= container_top + container_height * 0.5 + btn_height / 2 &&
+        mouseY >= container_top + container_height * 0.5 &&
+        mouseY <= container_top + container_height * 0.5 + text_box_height &&
         mouseX >= width * 0.11 + text_box_width + 4 &&
         mouseX <= width * 0.11 + text_box_width + 4 + text_box_height
       ) {
@@ -185,8 +185,8 @@ function mousePressed() {
       }
 
       if (
-        mouseY >= container_top + container_height * 0.8 - btn_height / 2 &&
-        mouseY <= container_top + container_height * 0.8 + btn_height / 2 &&
+        mouseY >= container_top + container_height * 0.8 &&
+        mouseY <= container_top + container_height * 0.8 + btn_height &&
         mouseX >= (width - btn_width) / 2 &&
         mouseX <= (width + btn_width) / 2
       ) {
@@ -209,8 +209,8 @@ function mousePressed() {
       break;
     case Status.JOINING:
       if (
-        mouseY >= container_top + container_height * 0.5 - btn_height / 2 &&
-        mouseY <= container_top + container_height * 0.5 + btn_height / 2 &&
+        mouseY >= container_top + container_height * 0.5 &&
+        mouseY <= container_top + container_height * 0.5 + text_box_height &&
         mouseX >= width * 0.11 + text_box_width + 4 &&
         mouseX <= width * 0.11 + text_box_width + 4 + text_box_height
       ) {
