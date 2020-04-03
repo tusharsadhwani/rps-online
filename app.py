@@ -19,7 +19,7 @@ class Player:
     def __init__(self, pid, name):
         self.pid = pid
         self.name = name
-        self.score = 0
+        self.score = {}
         self.hand = None
     
     @property
@@ -114,7 +114,8 @@ def list_players():
 
     if round_no != room.round:
         if round_no > room.max_rounds:
-            return jsonify(gameover=True)
+            scores = [f"{p.name} - {sum(p.score.values())}" for p in players]
+            return jsonify(gameover=True, scores=scores)
 
         return jsonify(ready=False, players=[{'name': p.name, 'hand': None} for p in players])
 
@@ -173,7 +174,6 @@ def play_round():
                 for p in room.players:
                     p.hand = None
         else:
-            print("Invalid round")
             return jsonify(error=401, message="Invalid round number")
 
     player.hand = (
@@ -181,6 +181,27 @@ def play_round():
         Hand.PAPER if hand == 'p' else
         Hand.SCISSORS
     )
+
+    if all(p.hand is not None for p in room.players):
+        current_round = room.round
+        rocks = 0
+        papers = 0
+        scissors = 0
+        for p in room.players:
+            if p.hand == Hand.ROCK:
+                rocks += 1
+            elif p.hand == Hand.PAPER:
+                papers += 1
+            elif p.hand == Hand.SCISSORS:
+                scissors += 1
+
+        for p in room.players:
+            if p.hand == Hand.ROCK:
+                p.score[current_round] = scissors
+            elif p.hand == Hand.PAPER:
+                p.score[current_round] = rocks
+            elif p.hand == Hand.SCISSORS:
+                p.score[current_round] = papers
 
     return jsonify(success=True)
 
